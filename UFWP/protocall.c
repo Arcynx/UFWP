@@ -5,5 +5,5 @@
 int
 main ()
 {
-  
+  printf("Starting Server");
 }
