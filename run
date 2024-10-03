@@ -5,9 +5,12 @@ RED='\e[0;31m'
 RESET='\e[0m'
 
 if [[ $1 == *c* ]]; then
-  echo -e "${GREEN}Running Client${RESET}"
+  gcc -o client UFWP/Client/client.c
+  ./client
 elif [[ $1 == *s* ]]; then
-  echo -e "${GREEN}Running Server${RESET}"
+  gcc -o server UFWP/Server/server.c
+  echo -e "${GREEN}Enter sudo password${RESET}"
+  sudo ./server
 else
   echo -e "${RED}use -c to run the client \nuse -s to run the server${RESET}"
 fi
