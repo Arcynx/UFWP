@@ -35,15 +35,30 @@ main ()
       break;
     }
 
+    printf ("------------------------------------------\n\n");
+
     printf ("Received Ethernet frame, length: %ld bytes\n", frame_len);
 
     struct ethhdr *eth_header = (struct ethhdr *)buf;
     printf ("Source MAC: %s\n", ether_ntoa ((struct ether_addr *) eth_header->h_source));
     printf ("Destination MAC: %s\n", ether_ntoa ((struct ether_addr *) eth_header->h_dest));
-
     printf ("Ethertype: 0x%04x\n", ntohs (eth_header->h_proto));
-    char *custom_protocol_data = buf + sizeof (struct ethhdr);
-    printf ("Custom protocol data: %s\n", custom_protocol_data);
+
+    int eth_header_len = sizeof (struct ethhdr);
+    char *custom_protocol_data = buf + eth_header_len;
+
+    int data_len = frame_len - eth_header_len;
+    printf("Custom protocol data (%d bytes):", data_len);
+
+    /* Print packet data */
+
+    for (int i = 0; i < data_len; i++)
+    {
+      if (i % 16 == 0) printf ("\n");
+      if ("%02X ", (unsigned char *)custom_protocol_data[i]);
+    }
+
+    printf ("\n\n------------------------------------------");
   }
 
   close(raw_socket);
